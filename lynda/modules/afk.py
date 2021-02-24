@@ -25,7 +25,7 @@ def afk(update: Update, _):
 
     sql.set_afk(update.effective_user.id, reason)
     update.effective_message.reply_text(
-        "{} is away from keyboard !".format(update.effective_user.first_name)
+        "{} Dia lagi ngilang dari dunia".format(update.effective_user.first_name)
     )
 
 
@@ -39,14 +39,14 @@ def no_longer_afk(update: Update, _):
     res = sql.rm_afk(user.id)
     if res:
         options = [
-            "{} is here!",
-            "{} is back!",
-            "{} is now in the chat!",
-            "{} is awake!",
-            "{} is back online!",
-            "{} is finally here!",
-            "Welcome back!, {}",
-            "Where is {}?\nIn the chat!",
+            "{} Udah balik",
+            "{} Udah bangkit",
+            "{} Baru bangkit",
+            "{} Baru bangun",
+            "{} Dia baru balek",
+            "{} Lah ngapain balik?",
+            "Selamat datang di hari kebalikan, {}",
+            "Napa balik? {}?\nMending balik ke kubur sono",
         ]
         chosen_option = random.choice(options)
         update.effective_message.reply_text(
@@ -95,9 +95,9 @@ def __gdpr__(user_id):
 
 __help__ = """
 -> `/afk` <reason>
-mark yourself as AFK(away from keyboard).
+Biar lu bisa AFK(away from keyboard).
 -> `brb` <reason>
-same as the afk command - but not a command.
+Sama aja tapi lebih keren.
 
 When marked as AFK, any mentions will be replied to with a message to say you're not available!
 """
