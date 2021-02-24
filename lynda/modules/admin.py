@@ -61,7 +61,7 @@ def promote(update: Update, context: CallbackContext) -> str:
             can_restrict_members=bot_member.can_restrict_members,
             can_pin_messages=bot_member.can_pin_messages)
     except BadRequest as err:
-        if err.message == 'User_not_mutual_contact':
+        if err.message == 'User gk masuk kontak:
             message.reply_text("Gw gabisa promote orang di grup ini, coba cek permission gw.")
         else:
             message.reply_text('Error pas mau promote, mungkin faktor face.')
@@ -70,7 +70,7 @@ def promote(update: Update, context: CallbackContext) -> str:
                     parse_mode=ParseMode.HTML)
 
     log_message += (f"<b>{html.escape(chat.title)}:</b>\n"
-                    "#PROMOTED\n"
+                    "#Aciee di promote\n"
                     f"<b>Admoon:</b> {mention_html(user.id, user.first_name)}\n"
                     f"<b>Pengguna pantek:</b> {mention_html(user_member.user.id, user_member.user.first_name)}")
 
@@ -129,7 +129,7 @@ def demote(update: Update, context: CallbackContext) -> str:
                         parse_mode=ParseMode.HTML)
 
         log_message += (f"<b>{html.escape(chat.title)}:</b>\n"
-                        f"#DEMOTED\n"
+                        f"#wowkoakwoakwoa DIKUDETA\n"
                         f"<b>Admoon:</b> {mention_html(user.id, user.first_name)}\n"
                         f"<b>User pantek:</b> {mention_html(user_member.user.id, user_member.user.first_name)}")
 
