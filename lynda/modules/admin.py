@@ -39,11 +39,11 @@ def promote(update: Update, context: CallbackContext) -> str:
         return log_message
 
     if user_member.status in ['administrator', 'creator']:
-        message.reply_text("How am I meant to promote someone that's already an admin?")
+        message.reply_text("Jadiin gw admin dulu lah tod")
         return log_message
 
     if user_id == context.bot.id:
-        message.reply_text("I can't promote myself! Get an admin to do it for me.")
+        message.reply_text("Cok gw gabisa promite diri gw jd admin, hadehhh")
         return log_message
 
     # set same perms as bot - bot can't assign higher perms than itself!
@@ -62,17 +62,17 @@ def promote(update: Update, context: CallbackContext) -> str:
             can_pin_messages=bot_member.can_pin_messages)
     except BadRequest as err:
         if err.message == 'User_not_mutual_contact':
-            message.reply_text("I can't promote someone who isn't in the group.")
+            message.reply_text("Gw gabisa promote orang di grup ini, coba cek permission gw.")
         else:
-            message.reply_text('An error occured while promoting.')
+            message.reply_text('Error pas mau promote, mungkin faktor face.')
         return log_message
-    context.bot.sendMessage(chat.id, f"Sucessfully promoted <b>{user_member.user.first_name or user_id}</b>!",
+    context.bot.sendMessage(chat.id, f"Promote jadi berhasil ya tod <b>{user_member.user.first_name or user_id}</b>!",
                     parse_mode=ParseMode.HTML)
 
     log_message += (f"<b>{html.escape(chat.title)}:</b>\n"
                     "#PROMOTED\n"
-                    f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                    f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}")
+                    f"<b>Admoon:</b> {mention_html(user.id, user.first_name)}\n"
+                    f"<b>Pengguna pantek:</b> {mention_html(user_member.user.id, user_member.user.first_name)}")
 
     return log_message
 
@@ -92,7 +92,7 @@ def demote(update: Update, context: CallbackContext) -> str:
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("Lu bukan user nih..")
         return log_message
 
     try:
@@ -102,15 +102,15 @@ def demote(update: Update, context: CallbackContext) -> str:
         return log_message
 
     if user_member.status == 'creator':
-        message.reply_text("This person CREATED the chat, how would I demote them?")
+        message.reply_text("Dia Owner tolo, mana bisa di demote")
         return log_message
 
     if user_member.status != 'administrator':
-        message.reply_text("Can't demote what wasn't promoted!")
+        message.reply_text("Gw gabisa demote dia, krn dia yang promote in cok")
         return log_message
 
     if user_id == context.bot.id:
-        message.reply_text("I can't demote myself! Get an admin to do it for me.")
+        message.reply_text("Lu gblk apa gimana? mana bisa gw demote diri gw sendiri")
         return log_message
 
     try:
@@ -125,18 +125,18 @@ def demote(update: Update, context: CallbackContext) -> str:
             can_pin_messages=False,
             can_promote_members=False)
 
-        context.bot.sendMessage(chat.id, f"Sucessfully demoted <b>{user_member.user.first_name or user_id}</b>!",
+        context.bot.sendMessage(chat.id, f"aowkoakwoaowkoakw mampos di kudeta <b>{user_member.user.first_name or user_id}</b>!",
                         parse_mode=ParseMode.HTML)
 
         log_message += (f"<b>{html.escape(chat.title)}:</b>\n"
                         f"#DEMOTED\n"
-                        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                        f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}")
+                        f"<b>Admoon:</b> {mention_html(user.id, user.first_name)}\n"
+                        f"<b>User pantek:</b> {mention_html(user_member.user.id, user_member.user.first_name)}")
 
         return log_message
     except BadRequest:
-        message.reply_text("Could not demote. I might not be admin, or the admin status was appointed by another"
-                        "user, so I can't act upon them!")
+        message.reply_text("Cok gw gabisa demote, atau ni admon nge kudeta gw?"
+                        "user, lu gk bisa ngelakuin itu")
         return log_message
 
 
@@ -159,23 +159,23 @@ def set_title(update: Update, context: CallbackContext):
         return
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("Dia bukan user.")
         return
 
     if user_member.status == 'creator':
-        message.reply_text("This person CREATED the chat, how can i set custom title for him?")
+        message.reply_text("Lah dia kan owner,mana bisa di ubah tittlenya")
         return
 
     if user_member.status != 'administrator':
-        message.reply_text("Can't set title for non-admins!\nPromote them first to set custom title!")
+        message.reply_text("Gk bisalah pantek gw ngasi tittle ke non admin")
         return
 
     if user_id == context.bot.id:
-        message.reply_text("I can't set my own title myself! Get the one who made me admin to do it for me.")
+        message.reply_text("User pantek gw gabisa ngasi tittle ke gw sendiri ya sayang")
         return
 
     if not title:
-        message.reply_text("Setting blank title doesn't do anything!")
+        message.reply_text("Jangan ngasi Blank Tittle woy")
         return
 
     if len(title) > 16:
@@ -189,7 +189,7 @@ def set_title(update: Update, context: CallbackContext):
     status = result.json()["ok"]
 
     if status is True:
-        context.bot.sendMessage(chat.id, f"Sucessfully set title for <code>{user_member.user.first_name or user_id}</code> "
+        context.bot.sendMessage(chat.id, f"Acieee di promote jadi admoon <code>{user_member.user.first_name or user_id}</code> "
                                 f"to <code>{title[:16]}</code>!", parse_mode=ParseMode.HTML)
     else:
         description = result.json()["description"]
@@ -224,8 +224,8 @@ def pin(update: Update, context: CallbackContext) -> str:
                 raise
         log_message = (
             f"<b>{html.escape(chat.title)}:</b>\n"
-            f"#PINNED\n"
-            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}")
+            f"#Pesan ke pin\n"
+            f"<b>Admoon:</b> {mention_html(user.id, user.first_name)}")
 
         return log_message
 
@@ -249,8 +249,8 @@ def unpin(update: Update, context: CallbackContext) -> str:
 
     log_message = (
         f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#UNPINNED\n"
-        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}")
+        f"#Pesan udah di unpin\n"
+        f"<b>Admoon:</b> {mention_html(user.id, user.first_name)}")
 
     return log_message
 
@@ -269,9 +269,9 @@ def invite(update: Update, context: CallbackContext):
             invitelink = context.bot.exportChatInviteLink(chat.id)
             update.effective_message.reply_text(invitelink)
         else:
-            update.effective_message.reply_text("I don't have access to the invite link, try changing my permissions!")
+            update.effective_message.reply_text("Gw ga ada access ke link itu")
     else:
-        update.effective_message.reply_text("I can only give you invite links for supergroups and channels, sorry!")
+        update.effective_message.reply_text("Gw cuma bisa ngasi link SuperGroup doang sama channel")
 
 
 @run_async
@@ -306,21 +306,21 @@ def __chat_settings__(chat_id, user_id):
 
 __help__ = """
 -> `/adminlist`
-list of admins in the chat
+Daftar admoon pantek digrup ini :
 
 ──「 *Admin only* 」──
 -> `/pin`
-silently pins the message replied to - add 'loud' or 'notify' to give notifs to users.
+Balas sebuah pesan, niscaya gw akan pin pesan itu.
 -> `/unpin`
-unpins the currently pinned message
+Balas sebuah pesan,niscaya gw akan unpin pesan nya
 -> `/invitelink`
-gets invitelink to the group
+geDapetin link grupnya
 -> `/promote`
-promotes the user replied to
+Biar bisa promote orang laen jadi admoon
 -> `/demote`
-demotes the user replied to
+Biar bisa kudeta admoon
 -> `/settitle`
-sets a custom title for an admin that the bot promoted
+Ngasi tittle ke admoon
 """
 
 ADMINLIST_HANDLER = DisableAbleCommandHandler(["adminlist", "admins"], adminlist)
