@@ -23,9 +23,9 @@ def shorten(description, info = 'anilist.co'):
     msg = "" 
     if len(description) > 700:
            description = description[0:500] + '....'
-           msg += f"\n*Description*: _{description}_[Read More]({info})"
+           msg += f"\n*Deskripsi*: _{description}_[Baca Lagi]({info})"
     else:
-          msg += f"\n*Description*:_{description}_"
+          msg += f"\n*Deskripsi*:_{description}_"
     return msg
 
 
@@ -170,7 +170,7 @@ def anime(update: Update, context: CallbackContext):
         msg = f"*{json['title']['romaji']}*(`{json['title']['native']}`)\n*Type*: {json['format']}\n*Status*: {json['status']}\n*Episodes*: {json.get('episodes', 'N/A')}\n*Duration*: {json.get('duration', 'N/A')} Per Ep.\n*Score*: {json['averageScore']}\n*Genres*: `"
         for x in json['genres']: msg += f"{x}, "
         msg = msg[:-2] + '`\n'
-        msg += "*Studios*: `"
+        msg += "*Studionya*: `"
         for x in json['studios']['nodes']: msg += f"{x['name']}, " 
         msg = msg[:-2] + '`\n'
         info = json.get('siteUrl')
@@ -184,12 +184,12 @@ def anime(update: Update, context: CallbackContext):
         image = json.get('bannerImage', None)
         if trailer:
             buttons = [
-                [InlineKeyboardButton("More Info", url=info),
-                InlineKeyboardButton("Trailer 🎬", url=trailer)]
+                [InlineKeyboardButton("Info lebih", url=info),
+                InlineKeyboardButton(" Spoiler 🎬", url=trailer)]
                 ]
         else:
             buttons = [
-                [InlineKeyboardButton("More Info", url=info)]
+                [InlineKeyboardButton("Info Lebih", url=info)]
             ]
         if image:
             try:
@@ -205,7 +205,7 @@ def character(update: Update, _):
     message = update.effective_message
     search = message.text.split(' ', 1)
     if len(search) == 1:
-        update.effective_message.reply_text('Format : /character < character name >') 
+        update.effective_message.reply_text('Format : /character < Nama karakter >') 
         return
     search = search[1]
     variables = {'query': search}
@@ -226,7 +226,7 @@ def manga(update: Update, _):
     message = update.effective_message
     search = message.text.split(' ', 1)
     if len(search) == 1:
-        update.effective_message.reply_text('Format : /manga < manga name >') 
+        update.effective_message.reply_text('Format : /manga < Nama Manga nya >') 
         return
     search = search[1]
     variables = {'search': search}
@@ -239,9 +239,9 @@ def manga(update: Update, _):
             msg += f"*{title}*"
             if title_native:
                 msg += f"(`{title_native}`)"
-        if start_date: msg += f"\n*Start Date* - `{start_date}`"
+        if start_date: msg += f"\n*Dirilis* - `{start_date}`"
         if status: msg += f"\n*Status* - `{status}`"
-        if score: msg += f"\n*Score* - `{score}`"
+        if score: msg += f"\n*Skor* - `{score}`"
         msg += '\n*Genres* - '
         for x in json.get('genres', []): msg += f"{x}, "
         msg = msg[:-2]
@@ -279,10 +279,10 @@ def user(update: Update, _):
     try:
         user = jikan.user(search_query)
     except jikanpy.APIException:
-        update.effective_message.reply_text("Username not found.")
+        update.effective_message.reply_text("Username nya ngk ada ya.")
         return
 
-    progress_message = update.effective_message.reply_text("Searching.... ")
+    progress_message = update.effective_message.reply_text("Bentar cok gw cari ")
 
     date_format = "%Y-%m-%d"
     if user['image_url'] is None:
