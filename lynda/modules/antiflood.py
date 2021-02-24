@@ -40,24 +40,24 @@ def check_flood(update: Update, context: CallbackContext) -> str:
         context.bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
         context.bot.send_message(
             chat.id,
-            f"*mutes {mention_html(user.id, user.first_name)} permanently*\nStop flooding the group!",
+            f"*mutes {mention_html(user.id, user.first_name)} permanently*\nStop Antibacod digrup ini!",
             parse_mode=ParseMode.HTML)
         log_message = (
             f"<b>{html.escape(chat.title)}:</b>\n"
-            f"#MUTED\n"
+            f"#Yahahahaha hayuk ke mute\n"
             f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
-            f"Flooded the group.\nMuted until an admin unmutes")
+            f"AntiBacod diaktifin digrup ini.\nNunggu admoon ae unmute diri lu")
 
         return log_message
 
     except BadRequest:
         msg.reply_text(
-            "I can't kick people here, give me permissions first! Until then, I'll disable antiflood.")
+            "Gw gabisa kick orang disini cok, kako gitu gw matiin dulu AntiBacod nya")
         sql.set_flood(chat.id, 0)
         log_message = (
             "<b>{chat.title}:</b>\n"
             "#INFO\n"
-            "Don't have kick permissions, so automatically disabled antiflood.")
+            "Gabisa kick org disini, yodah gw matiin dlo AntiBacod nya")
 
         return log_message
 
@@ -89,7 +89,7 @@ def set_flood(update: Update, context: CallbackContext) -> str:
         if val in ('off', 'no', '0'):
             sql.set_flood(chat.id, 0)
             message.reply_text(
-                "Antiflood has been disabled{}.".format(chat_name),
+                "Antibacodnya dah dimatiin{}.".format(chat_name),
                 parse_mode=ParseMode.HTML)
 
         elif val.isdigit():
@@ -97,32 +97,32 @@ def set_flood(update: Update, context: CallbackContext) -> str:
             if amount <= 0:
                 sql.set_flood(chat.id, 0)
                 message.reply_text(
-                    "Antiflood has been disabled{}.".format(chat_name),
+                    "AntiBacod nya dah di matiin{}.".format(chat_name),
                     parse_mode=ParseMode.HTML)
                 log_message = (
                     f"<b>{html.escape(chat.title)}:</b>\n"
-                    f"#SETFLOOD\n"
+                    f"#SETAntibacodD\n"
                     f"<b>Admin</b>: {mention_html(user.id, user.first_name)}\n"
-                    f"Disabled antiflood.")
+                    f"Matiin AntiBacod.")
 
             elif amount < 3:
                 message.reply_text(
-                    "Antiflood has to be either 0 (disabled), or a number bigger than 3!")
+                    "Antibacod bisa di disable dengan di set nomor 0(matiin), paling tinggi 3")
             else:
                 sql.set_flood(chat.id, amount)
                 message.reply_text(
-                    "Antiflood has been updated and set to {}{}".format(
+                    "AntiBacod dah di update {}{}".format(
                         amount, chat_name), parse_mode=ParseMode.HTML)
                 log_message = (
                     f"<b>{html.escape(chat.title)}:</b>\n"
-                    f"#SETFLOOD\n"
+                    f"#SETAntibacod\n"
                     f"<b>Admin</b>: {mention_html(user.id, user.first_name)}\n"
-                    f"Set antiflood to <code>{amount}</code>.")
+                    f"Set Antibacod to <code>{amount}</code>.")
 
             return log_message
         else:
             message.reply_text(
-                "Unrecognised argument - please use a number, 'off', or 'no'.")
+                "Argument yang bagus kawan Tapi kasihlah nomornya, 'off', or 'no'.")
 
     return log_message
 
@@ -143,11 +143,11 @@ def flood(update: Update, _):
 
     if limit == 0:
         update.effective_message.reply_text(
-            f"I'm not currently enforcing flood control{chat_name}!",
+            f"Gw gk megang penuh antibacodnya{chat_name}!",
             parse_mode=ParseMode.HTML)
     else:
         update.effective_message.reply_text(
-            f"I'm currently punching users if they send "
+            f"Gw bakalan doxxing user apabila banyak bacod "
             f"more than {limit} consecutive messages{chat_name}.",
             parse_mode=ParseMode.HTML)
 
@@ -159,9 +159,9 @@ def __migrate__(old_chat_id, new_chat_id):
 def __chat_settings__(chat_id, _user_id):
     limit = sql.get_flood_limit(chat_id)
     if limit == 0:
-        return "*Not* currently enforcing flood control."
+        return "*Gk megang penuh antibacod."
     else:
-        return "Antiflood is set to `{}` messages.".format(limit)
+        return "AntiBacod di set ke `{}` messages.".format(limit)
 
 
 __help__ = """
@@ -170,7 +170,7 @@ Get the current flood control setting
 
 ──「 *Admin only:* 」──
 -> `/setflood` <int/'no'/'off'>
-enables or disables flood control
+Aktifin AntiBacod
 """
 
 FLOOD_BAN_HANDLER = MessageHandler(
