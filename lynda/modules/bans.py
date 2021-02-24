@@ -25,12 +25,12 @@ from lynda.modules.log_channel import loggable, gloggable
 def banme(update: Update, context: CallbackContext):
     message = update.effective_message
     if is_user_admin(update.effective_chat, update.effective_message.from_user.id):
-        update.effective_message.reply_text("Can't ban admins as you can see.")
+        update.effective_message.reply_text("Ya lu gabisa ban admin bego.")
         return
     try:
         context.bot.kick_chat_member(update.effective_chat.id, update.effective_message.from_user.id)
         context.bot.send_sticker(update.effective_chat.id, BAN_STICKER)  # banhammer marie sticker
-        response_message = "lmao have a load of ban UwU!"
+        response_message = "Kebanyakan di ban cok"
     except Exception as e:
         print(e)
         response_message = "Ohno! something is not right please contact @LyndaEagleSupport"
@@ -51,34 +51,34 @@ def ban(update: Update, context: CallbackContext) -> str:
     log_message = ""
     user_id, reason = extract_user_and_text(message, args)
     if not user_id:
-        message.reply_text("I doubt that's a user.")
+        message.reply_text("Gw ngira dia user.")
         return log_message
 
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "User not found":
-            message.reply_text("Can't seem to find this person.")
+        if excp.message == "User ngak ada":
+            message.reply_text("Gk bisa diliat ni user.")
             return log_message
         else:
             raise
 
     if user_id == context.bot.id:
-        message.reply_text("Oh yeah, ban myself, noob!")
+        message.reply_text("Tolo malah ban diri sendiri")
         return log_message
 
     # dev users to bypass whitelist protection incase of abuse
     if is_user_ban_protected(chat, user_id, member) and user not in DEV_USERS:
-        message.reply_text("This user has immunity - I can't ban them.")
+        message.reply_text("Dia immortal cok gabisa diban")
         return log_message
 
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#BANNED\n"
+        f"#Yahahahha hayuk kena ban ya\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}")
+        f"<b>Pengguma:</b> {mention_html(member.user.id, member.user.first_name)}")
     if reason:
-        log += "\n<b>Reason:</b> {}".format(reason)
+        log += "\n<b>Alasan nya:</b> {}".format(reason)
 
     try:
         chat.kick_member(user_id)
@@ -93,19 +93,19 @@ def ban(update: Update, context: CallbackContext) -> str:
         return log
 
     except BadRequest as excp:
-        if excp.message == "Reply message not found":
+        if excp.message == "Balas pesan lagi error":
             # Do not reply
             message.reply_text('Banned!', quote=False)
             return log
         else:
             LOGGER.warning(update)
             LOGGER.exception(
-                "ERROR banning user %s in chat %s (%s) due to %s",
+                "ERROR pas ban orang %s in chat %s (%s) due to %s",
                 user_id,
                 chat.title,
                 chat.id,
                 excp.message)
-            message.reply_text("Uhm...that didn't work...")
+            message.reply_text("Gak bisa cok...")
 
     return log_message
 
@@ -126,29 +126,29 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("I doubt that's a user.")
+        message.reply_text("Gw ngira dia user")
         return log_message
 
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
         if excp.message == "User not found":
-            message.reply_text("I can't seem to find this user.")
+            message.reply_text("Nggk bisa cari user nya")
             return log_message
         else:
             raise
 
     if user_id == context.bot.id:
-        message.reply_text("I'm not gonna BAN myself, are you crazy?")
+        message.reply_text("Tolo mana bisa gw ban diri gw sendiri")
         return log_message
 
     if is_user_ban_protected(chat, user_id, member):
-        message.reply_text("I don't feel like it.")
+        message.reply_text("Gw gasuka itu ya tod")
         return log_message
 
     if not reason:
         message.reply_text(
-            "You haven't specified a time to ban this user for!")
+            "Lu gk spesifik nge ban")
         return log_message
 
     split_reason = reason.split(None, 1)
@@ -162,35 +162,35 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
 
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
-        "#TEMP BANNED\n"
+        "#Ciee kena ban, ngk bisa masuk dulu sementara\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}\n"
-        f"<b>Time:</b> {time_val}")
+        f"<b>Pengguna:</b> {mention_html(member.user.id, member.user.first_name)}\n"
+        f"<b>Waktu:</b> {time_val}")
     if reason:
-        log += "\n<b>Reason:</b> {}".format(reason)
+        log += "\n<b>Alasan nya:</b> {}".format(reason)
 
     try:
         chat.kick_member(user_id, until_date=bantime)
         # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
         context.bot.sendMessage(
             chat.id,
-            f"Banned! User {mention_html(member.user.id, member.user.first_name)} "
-            f"will be banned for {time_val}.",
+            f"Acieee kena banned {mention_html(member.user.id, member.user.first_name)} "
+            f"Kena ban sampe {time_val}.",
             parse_mode=ParseMode.HTML)
         return log
 
     except BadRequest as excp:
-        if excp.message == "Reply message not found":
+        if excp.message == "Pesan gak ada":
             # Do not reply
             message.reply_text(
-                f"Banned! User will be banned for {time_val}.",
+                f"Kena ban sampe {time_val}.",
                 quote=False)
             return log
         else:
             LOGGER.warning(update)
-            LOGGER.exception("ERROR banning user %s in chat %s (%s) due to %s",
+            LOGGER.exception("ERROR gk bisa ban %s in chat %s (%s) due to %s",
                             user_id, chat.title, chat.id, excp.message)
-            message.reply_text("Well damn, I can't ban that user.")
+            message.reply_text("Gk bisa diban bjir.")
 
     return log_message
 
