@@ -61,7 +61,7 @@ def promote(update: Update, context: CallbackContext) -> str:
             can_restrict_members=bot_member.can_restrict_members,
             can_pin_messages=bot_member.can_pin_messages)
     except BadRequest as err:
-        if err.message == 'User gk masuk kontak:
+        if err.message == 'User gk masuk kontak':
             message.reply_text("Gw gabisa promote orang di grup ini, coba cek permission gw.")
         else:
             message.reply_text('Error pas mau promote, mungkin faktor face.')
